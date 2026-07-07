@@ -1,14 +1,11 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
-from sqlalchemy.orm import declarative_base, relationship
-
-Base = declarative_base()
+from sqlalchemy.orm import relationship
+from .db import Base  # относительный импорт
 
 class Category(Base):
     __tablename__ = "categories"
-
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, nullable=False, unique=True)
-
+    title = Column(String, nullable=False, unique=True, index=True)
     books = relationship("Book", back_populates="category", cascade="all, delete-orphan")
 
     def __repr__(self):
@@ -16,15 +13,12 @@ class Category(Base):
 
 class Book(Base):
     __tablename__ = "books"
-
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String, nullable=False)
-    description = Column(String, nullable=True)
+    title = Column(String, nullable=False, index=True)
+    description = Column(String)
     price = Column(Float, nullable=False)
-    url = Column(String, nullable=True, default="")
-
+    url = Column(String, default="")
     category_id = Column(Integer, ForeignKey("categories.id"), nullable=False)
-
     category = relationship("Category", back_populates="books")
 
     def __repr__(self):

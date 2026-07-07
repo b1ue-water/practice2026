@@ -1,40 +1,43 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional
 
 class CategoryBase(BaseModel):
-    title: str
+    title: str = Field(..., min_length=1, max_length=100)
 
 class CategoryCreate(CategoryBase):
     pass
 
 class CategoryUpdate(BaseModel):
-    title: Optional[str] = None
+    title: Optional[str] = Field(None, min_length=1, max_length=100)
 
 class CategoryResponse(CategoryBase):
     id: int
+    
+    class Config:
+        from_attributes = True
 
-    model_config = {"from_attributes": True}
-
-
-# ---------- Схемы для Book ----------
 class BookBase(BaseModel):
-    title: str
-    description: Optional[str] = None
-    price: float
-    url: Optional[str] = ""
+    title: str = Field(..., min_length=1, max_length=200)
+    description: Optional[str] = Field(None, max_length=500)
+    price: float = Field(..., gt=0)
+    url: Optional[str] = None
     category_id: int
 
 class BookCreate(BookBase):
     pass
 
 class BookUpdate(BaseModel):
-    title: Optional[str] = None
-    description: Optional[str] = None
-    price: Optional[float] = None
+    title: Optional[str] = Field(None, min_length=1, max_length=200)
+    description: Optional[str] = Field(None, max_length=500)
+    price: Optional[float] = Field(None, gt=0)
     url: Optional[str] = None
     category_id: Optional[int] = None
 
 class BookResponse(BookBase):
     id: int
+    
+    class Config:
+        from_attributes = True
 
-    model_config = {"from_attributes": True}
+class BookWithCategoryResponse(BookResponse):
+    category_title: str
