@@ -1,18 +1,26 @@
+# Виртуальное окружение
 venv/
 env/
 ENV/
 
+# Python
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
 
+# Файлы окружения
 .env
+
+# IDE
 .vscode/
 .idea/
 
+# OS
 .DS_Store
 Thumbs.db
+
+# БД
 *.db
 *.sqlite

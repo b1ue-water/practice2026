@@ -1,8 +1,9 @@
 from sqlalchemy import Column, Integer, String, Float, ForeignKey
 from sqlalchemy.orm import relationship
-from .db import Base  # относительный импорт
+from app.db.db import Base
 
 class Category(Base):
+    """Модель категории"""
     __tablename__ = "categories"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False, unique=True, index=True)
@@ -12,6 +13,7 @@ class Category(Base):
         return f"<Category(id={self.id}, title='{self.title}')>"
 
 class Book(Base):
+    """Модель книги"""
     __tablename__ = "books"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String, nullable=False, index=True)
